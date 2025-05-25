@@ -1,12 +1,14 @@
-import React from 'react'
-import AdminHeader from '../../Components/AdminHeader'
+import React from 'react';
+import AdminLayout from '../../layouts/AdminLayout';
 
 const AdminDashboard = () => {
   return (
-    <>
-        <AdminHeader />
-    </>
-  )
-}
+    <AdminLayout>
+      <div className="text-xl font-semibold text-[#5b2333]">
+        Welcome to the Admin Dashboard!
+      </div>
+    </AdminLayout>
+  );
+};
 
-export default AdminDashboard
+export default AdminDashboard;
