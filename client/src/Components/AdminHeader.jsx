@@ -13,13 +13,14 @@ const AdminHeader = ({ onBurgerClick }) => {
                 <h1 className='montserrat text-2xl font-bold'>CollabTasks</h1>
             </div>
             <div className="flex items-center gap-6">
-                <button
-                    onClick={() => setIsModalOpen(true)}
-                    className="text-sm flex items-center gap-2 bg-[#5b2333] text-[#f7f4f3] rounded-md px-4 py-1.5 hover:bg-[#894b5c] transition duration-150 cursor-pointer"
-                    disabled={!user}
-                >
-                    <FaPlus className='text-xs' />Create Organization
-                </button>
+                {user && !user.adminOrganizationId && (
+                    <button
+                        onClick={() => setIsModalOpen(true)}
+                        className="text-sm flex items-center gap-2 bg-[#5b2333] text-[#f7f4f3] rounded-md px-4 py-1.5 hover:bg-[#894b5c] transition duration-150 cursor-pointer"
+                    >
+                        <FaPlus className='text-xs' />Create Organization
+                    </button>
+                )}
 
                 <div className='flex justify-center items-baseline gap-1'>
                     {user ? (
@@ -41,6 +42,7 @@ const AdminHeader = ({ onBurgerClick }) => {
                 <CreateOrganizationModal
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
+                    adminId={user.id}
                     adminName={user.name}
                     adminEmail={user.email}
                 />

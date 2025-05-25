@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const CreateOrganizationModal = ({ isOpen, onClose, adminName, adminEmail }) => {
+const CreateOrganizationModal = ({ isOpen, onClose, adminId, adminName, adminEmail }) => {
     const [formData, setFormData] = useState({
         organizationName: '',
         organizationDomain: '',
@@ -16,16 +16,33 @@ const CreateOrganizationModal = ({ isOpen, onClose, adminName, adminEmail }) => 
 
     const handleSubmit = async () => {
         try {
+            console.log(adminId, adminName, adminEmail);
             const response = await fetch('http://localhost:5000/api/create-organization', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ ...formData, adminName, adminEmail }),
+                body: JSON.stringify({ ...formData, adminId, adminName, adminEmail }),
             });
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
+
+            const getUserResponse = await fetch(`http://localhost:5000/api/user/${adminId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (!getUserResponse.ok) {
+                throw new Error(`HTTP error! status: ${getUserResponse.status}`);
+            }
+            const adminData = await getUserResponse.json();
+            const adminOrganizationId = adminData.organization;
+            const user = JSON.parse(sessionStorage.getItem('user'));
+            user.adminOrganizationId = adminOrganizationId;
+            sessionStorage.setItem('user', JSON.stringify(user));
+
             onClose();
         } catch (error) {
             console.error('Error creating organization:', error);

@@ -35,7 +35,6 @@ const Signin = () => {
             const data = await response.json();
             if (response.ok) {
                 setUser({ ...data.user, email: formData.email });
-                sessionStorage.setItem('user', JSON.stringify(data.user));
                 switch (formData.role) {
                     case "Admin":
                         navigate("/admin-dashboard");
