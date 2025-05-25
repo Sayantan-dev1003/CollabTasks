@@ -24,6 +24,7 @@ const Signup = () => {
         try {
             const response = await fetch("http://localhost:5000/register", {
                 method: "POST",
+                credentials: "include",
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -35,7 +36,7 @@ const Signup = () => {
                 console.log(data.message);
                 switch (formData.role) {
                     case "admin":
-                        navigate("/records");
+                        navigate("/admin-dashboard");
                         break;
                     case "manager":
                         navigate("/manager-dashboard");

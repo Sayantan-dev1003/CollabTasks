@@ -23,6 +23,7 @@ const Signin = () => {
         try {
             const response = await fetch("http://localhost:5000/login", {
                 method: "POST",
+                credentials: "include",
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -34,7 +35,7 @@ const Signin = () => {
                 console.log(data.message);
                 switch (formData.role) {
                     case "admin":
-                        navigate("/records");
+                        navigate("/admin-dashboard");
                         break;
                     case "manager":
                         navigate("/manager-dashboard");
