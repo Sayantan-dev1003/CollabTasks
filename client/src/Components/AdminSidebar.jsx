@@ -1,9 +1,19 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
 
 const AdminSidebar = ({ isOpen, onClose }) => {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const isActive = (path) => location.pathname === path;
+
+    const linkClasses = (path) =>
+        `text-sm flex items-center gap-2 border-b-[0.1rem] border-b-[#894b5c] px-2 py-1.5 cursor-pointer transition-transform duration-300 ${
+            isActive(path)
+                ? 'bg-[#894b5c] rounded-sm text-white'
+                : 'hover:bg-[#894b5c] hover:rounded-sm text-[#f7f4f3]'
+        }`;
 
     return (
         <div className={`fixed top-0 right-0 h-full w-64 bg-[#5b2333] text-[#f7f4f3] shadow-lg transform transition-transform duration-300 z-50 ${
@@ -15,20 +25,28 @@ const AdminSidebar = ({ isOpen, onClose }) => {
                 </button>
                 <h1 className='montserrat text-2xl font-bold mb-4'>CollabTasks</h1>
                 <ul className="flex flex-col gap-4 mt-6">
-                    <li className="text-sm flex items-center gap-2 border-b-[0.1rem] border-b-[#894b5c] text-[#f7f4f3] px-2 py-1.5 hover:bg-[#894b5c] hover:rounded-sm transition duration-150 cursor-pointer"
-                        onClick={() => { navigate('/admin-dashboard'); onClose(); }}>
+                    <li
+                        className={linkClasses('/admin-dashboard')}
+                        onClick={() => { navigate('/admin-dashboard'); onClose(); }}
+                    >
                         Dashboard
                     </li>
-                    <li className="text-sm flex items-center gap-2 border-b-[0.1rem] border-b-[#894b5c] text-[#f7f4f3] px-2 py-1.5 hover:bg-[#894b5c] hover:rounded-sm transition duration-150 cursor-pointer"
-                        onClick={() => { navigate('/users-management'); onClose(); }}>
+                    <li
+                        className={linkClasses('/admin/user-management')}
+                        onClick={() => { navigate('/admin/user-management'); onClose(); }}
+                    >
                         Users Management
                     </li>
-                    <li className="text-sm flex items-center gap-2 border-b-[0.1rem] border-b-[#894b5c] text-[#f7f4f3] px-2 py-1.5 hover:bg-[#894b5c] hover:rounded-sm transition duration-150 cursor-pointer"
-                        onClick={() => { navigate('/organization-info'); onClose(); }}>
+                    <li
+                        className={linkClasses('/admin/organization-info')}
+                        onClick={() => { navigate('/admin/organization-info'); onClose(); }}
+                    >
                         Organization Info
                     </li>
-                    <li className="text-sm flex items-center gap-2 border-b-[0.1rem] border-b-[#894b5c] text-[#f7f4f3] px-2 py-1.5 hover:bg-[#894b5c] hover:rounded-sm transition duration-150 cursor-pointer"
-                        onClick={() => { navigate('/settings'); onClose(); }}>
+                    <li
+                        className={linkClasses('/admin/settings')}
+                        onClick={() => { navigate('/admin/settings'); onClose(); }}
+                    >
                         Settings
                     </li>
                 </ul>

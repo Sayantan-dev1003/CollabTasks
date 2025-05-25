@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import cors from "cors";
-
+import organizationRoutes from "./routes/organizationRoutes.js";
 dotenv.config();
 const app = express();
 
@@ -19,5 +19,6 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/", authRoutes);
+app.use("/api/create-organization", organizationRoutes);
 
 export default app;

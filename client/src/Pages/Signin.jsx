@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from '../Context/AuthContext';
 
 const Signin = () => {
     const [formData, setFormData] = useState({
         email: "",
         password: "",
-        role: "member"
+        role: "Member"
     });
     const navigate = useNavigate();
+    const { setUser } = useAuth();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -32,15 +34,16 @@ const Signin = () => {
 
             const data = await response.json();
             if (response.ok) {
-                console.log(data.message);
+                setUser({ ...data.user, email: formData.email });
+                sessionStorage.setItem('user', JSON.stringify(data.user));
                 switch (formData.role) {
-                    case "admin":
+                    case "Admin":
                         navigate("/admin-dashboard");
                         break;
-                    case "manager":
+                    case "Manager":
                         navigate("/manager-dashboard");
                         break;
-                    case "member":
+                    case "Member":
                         navigate("/dashboard");
                         break;
                     default:
@@ -67,9 +70,9 @@ const Signin = () => {
                     <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Enter Email" required className="w-full outline-none border-b-[0.1rem] border-[#5b2333] p-2 focus:ring-[#5b2333]" />
                     <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Enter Password" required className="w-full outline-none border-b-[0.1rem] border-[#5b2333] p-2 focus:ring-[#5b2333]" />
                     <select name="role" value={formData.role} onChange={handleChange} className="w-full outline-none border-b-[0.1rem] border-[#5b2333] p-2 focus:ring-[#5b2333] cursor-pointer">
-                        <option value="admin">Admin</option>
-                        <option value="manager">Manager</option>
-                        <option value="member">Member</option>
+                        <option value="Admin">Admin</option>
+                        <option value="Manager">Manager</option>
+                        <option value="Member">Member</option>
                     </select>
                     <button type="submit" className="w-full bg-[#5b2333] text-[#f7f4f3] rounded-md py-2 hover:bg-[#894b5c] transition duration-150 cursor-pointer">Sign In</button>
                 </form>

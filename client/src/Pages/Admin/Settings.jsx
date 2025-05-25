@@ -1,14 +1,14 @@
 import React from 'react';
 import AdminLayout from '../../Layouts/AdminLayout';
 
-const AdminDashboard = () => {
+const Settings = () => {
   return (
     <AdminLayout>
       <div className="text-xl font-semibold text-[#5b2333]">
-        Welcome to the Admin Dashboard!
+        Welcome to the Settings!
       </div>
     </AdminLayout>
   );
 };
 
-export default AdminDashboard;
+export default Settings;
