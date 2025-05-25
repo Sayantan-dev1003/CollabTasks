@@ -1,17 +1,33 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { getUserFromDB, saveUserToDB, clearUserFromDB } from '../utils/indexedDB';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+  const [user, setUserState] = useState(null);
 
-    console.log("user:" , user)
+  useEffect(() => {
+    const fetchUser = async () => {
+      const storedUser = await getUserFromDB();
+      if (storedUser) setUserState(storedUser);
+    };
+    fetchUser();
+  }, []);
 
-    return (
-        <AuthContext.Provider value={{ user, setUser }}>
-            {children}
-        </AuthContext.Provider>
-    );
+  const setUser = async (userData) => {
+    setUserState(userData);
+    if (userData) {
+      await saveUserToDB(userData);
+    } else {
+      await clearUserFromDB();
+    }
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, setUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = () => useContext(AuthContext);

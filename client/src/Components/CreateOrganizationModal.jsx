@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { updateUser } from '../utils/indexedDB';
 
 const CreateOrganizationModal = ({ isOpen, onClose, adminId, adminName, adminEmail }) => {
     const [formData, setFormData] = useState({
@@ -39,9 +40,7 @@ const CreateOrganizationModal = ({ isOpen, onClose, adminId, adminName, adminEma
             }
             const adminData = await getUserResponse.json();
             const adminOrganizationId = adminData.organization;
-            const user = JSON.parse(sessionStorage.getItem('user'));
-            user.adminOrganizationId = adminOrganizationId;
-            sessionStorage.setItem('user', JSON.stringify(user));
+            await updateUser({ adminOrganizationId });
 
             onClose();
         } catch (error) {

@@ -2,23 +2,35 @@ import React, { useState, useEffect } from 'react';
 import AdminLayout from '../../Layouts/AdminLayout';
 import { FaPlus, FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import AddUserModal from '../../Components/AddUserModal';
-import { useAuth } from '../../Context/AuthContext';
+import { getUserFromDB } from '../../utils/indexedDB';
 
 const UserManagement = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { user } = useAuth();
-  console.log(user);
-
+  const [adminOrganizationId, setAdminOrganizationId] = useState(null);
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      const response = await fetch(`http://localhost:5000/api/organization/${user.adminOrganizationId}`);
-      const data = await response.json();
-      setUsers(data.users);
+    const fetchAdminOrgIdAndUsers = async () => {
+      const user = await getUserFromDB();
+      const orgId = user?.adminOrganizationId;
+  
+      if (!orgId) return;
+  
+      setAdminOrganizationId(orgId);
+  
+      try {
+        const response = await fetch(`http://localhost:5000/api/user/organization/${orgId}`);
+        const data = await response.json();
+        setUsers(Array.isArray(data.users) ? data.users : []);
+      } catch (err) {
+        console.error('Failed to fetch users:', err);
+        setUsers([]);
+      }
     };
-    fetchUsers();
-  }, [user.adminOrganizationId]);
+  
+    fetchAdminOrgIdAndUsers();
+  }, []);  
+  
 
   const sortedUsers = [...users].sort((a, b) => {
     const rolePriority = { admin: 0, manager: 1, member: 2 };
