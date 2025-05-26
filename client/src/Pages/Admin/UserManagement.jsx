@@ -8,11 +8,13 @@ const UserManagement = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [users, setUsers] = useState([]);
   const [organizationName, setOrganizationName] = useState('');
+  const [organizationId, setOrganizationId] = useState('');
 
   useEffect(() => {
     const fetchAdminOrgIdAndUsers = async () => {
       const user = await getUserFromDB();
       const orgId = user?.organization;
+      setOrganizationId(orgId);
   
       if (!orgId) return;
   
@@ -20,7 +22,6 @@ const UserManagement = () => {
       try {
         const response = await fetch(`http://localhost:5000/api/user/organization/${orgId}`);
         const data = await response.json();
-        console.log(data)
         setUsers(Array.isArray(data.users) ? data.users.map(user => ({...user, organizationName: data.organizationName})) : []);
         setOrganizationName(data.organizationName);
       } catch (err) {
@@ -107,7 +108,7 @@ const UserManagement = () => {
           </table>
         </div>
       </div>
-      <AddUserModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} organizationName={organizationName} />
+      <AddUserModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} organizationName={organizationName} organizationId={organizationId} />
     </AdminLayout>
   );
 };

@@ -6,7 +6,7 @@ const Signup = () => {
         name: "",
         email: "",
         password: "",
-        role: "member"
+        role: "Member"
     });
     const navigate = useNavigate();
 
@@ -35,14 +35,14 @@ const Signup = () => {
             if (response.ok) {
                 console.log(data.message);
                 switch (formData.role) {
-                    case "admin":
-                        navigate("/admin-dashboard");
+                    case "Admin":
+                        navigate("/");
                         break;
-                    case "manager":
-                        navigate("/manager-dashboard");
+                    case "Manager":
+                        navigate("/");
                         break;
-                    case "member":
-                        navigate("/dashboard");
+                    case "Member":
+                        navigate("/");
                         break;
                     default:
                         alert("Invalid role selected.");
@@ -69,9 +69,9 @@ const Signup = () => {
                     <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Enter Email" required className="w-full outline-none border-b-[0.1rem] border-[#5b2333] p-2 focus:ring-[#5b2333]" />
                     <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Enter Password" required className="w-full outline-none border-b-[0.1rem] border-[#5b2333] p-2 focus:ring-[#5b2333]" />
                     <select name="role" value={formData.role} onChange={handleChange} className="w-full outline-none border-b-[0.1rem] border-[#5b2333] p-2 focus:ring-[#5b2333] cursor-pointer">
-                        <option value="admin">Admin</option>
-                        <option value="manager">Manager</option>
-                        <option value="member">Member</option>
+                        <option value="Admin">Admin</option>
+                        <option value="Manager">Manager</option>
+                        <option value="Member">Member</option>
                     </select>
                     <button type="submit" className="w-full bg-[#5b2333] text-[#f7f4f3] rounded-md py-2 hover:bg-[#894b5c] transition duration-150 cursor-pointer">Create Account</button>
                 </form>
