@@ -46,7 +46,7 @@ const AddUserModal = ({ isModalOpen, setIsModalOpen, organizationName }) => {
                                 value={formData.name}
                                 onChange={handleChange}
                                 required
-                                className="border px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#5b2333]"
+                                className="border px-4 py-2 rounded-md focus:outline-none focus:ring-[0.1rem] focus:ring-[#5b2333]"
                             />
                             <input
                                 type="email"
@@ -55,7 +55,7 @@ const AddUserModal = ({ isModalOpen, setIsModalOpen, organizationName }) => {
                                 value={formData.email}
                                 onChange={handleChange}
                                 required
-                                className="border px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#5b2333]"
+                                className="border px-4 py-2 rounded-md focus:outline-none focus:ring-[0.1rem] focus:ring-[#5b2333]"
                             />
                             <input
                                 type="password"
@@ -64,26 +64,34 @@ const AddUserModal = ({ isModalOpen, setIsModalOpen, organizationName }) => {
                                 value={formData.password}
                                 onChange={handleChange}
                                 required
-                                className="border px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#5b2333]"
+                                className="border px-4 py-2 rounded-md focus:outline-none focus:ring-[0.1rem] focus:ring-[#5b2333]"
                             />
                             <select
                                 name="role"
                                 value={formData.role}
                                 onChange={handleChange}
                                 required
-                                className="border px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#5b2333]"
+                                className="border px-4 py-2 rounded-md focus:outline-none focus:ring-[0.1rem] focus:ring-[#5b2333]"
                             >
                                 <option value="Manager">Manager</option>
                                 <option value="Member">Member</option>
                             </select>
+                            <input
+                                type="text"
+                                name="organization"
+                                placeholder="Organization"
+                                value={organizationName}
+                                disabled
+                                className="border text-gray-400 px-4 py-2 rounded-md cursor-not-allowed"
+                            />
                         </div>
                         <div className="flex justify-end gap-3 mt-6">
-                            <button onClick={handleSubmit} className="mt-4 px-4 py-2 bg-[#5b2333] text-white rounded hover:bg-[#894b5c] transition">
+                            <button onClick={handleSubmit} className="mt-4 px-4 py-2 bg-[#5b2333] text-white rounded hover:bg-[#894b5c] transition duration-200 cursor-pointer">
                                 Add User
                             </button>
                             <button
                                 onClick={() => setIsModalOpen(false)}
-                                className="mt-4 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition"
+                                className="mt-4 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition duration-200 cursor-pointer"
                             >
                                 Close
                             </button>

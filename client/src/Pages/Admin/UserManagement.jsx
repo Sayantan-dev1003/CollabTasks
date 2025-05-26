@@ -6,8 +6,8 @@ import { getUserFromDB } from '../../utils/indexedDB';
 
 const UserManagement = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [adminOrganizationId, setAdminOrganizationId] = useState(null);
   const [users, setUsers] = useState([]);
+  const [organizationName, setOrganizationName] = useState('');
 
   useEffect(() => {
     const fetchAdminOrgIdAndUsers = async () => {
@@ -16,12 +16,13 @@ const UserManagement = () => {
   
       if (!orgId) return;
   
-      setAdminOrganizationId(orgId);
   
       try {
         const response = await fetch(`http://localhost:5000/api/user/organization/${orgId}`);
         const data = await response.json();
-        setUsers(Array.isArray(data.users) ? data.users : []);
+        console.log(data)
+        setUsers(Array.isArray(data.users) ? data.users.map(user => ({...user, organizationName: data.organizationName})) : []);
+        setOrganizationName(data.organizationName);
       } catch (err) {
         console.error('Failed to fetch users:', err);
         setUsers([]);
@@ -106,7 +107,7 @@ const UserManagement = () => {
           </table>
         </div>
       </div>
-      <AddUserModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      <AddUserModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} organizationName={organizationName} />
     </AdminLayout>
   );
 };

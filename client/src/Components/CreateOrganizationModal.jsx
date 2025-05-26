@@ -67,7 +67,7 @@ const CreateOrganizationModal = ({ isOpen, onClose, adminId, adminName, adminEma
                         type="text"
                         name="organizationName"
                         placeholder="Organization Name *"
-                        className="border px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#5b2333]"
+                        className="border px-4 py-2 rounded-md focus:outline-none focus:ring-[0.1rem] focus:ring-[#5b2333]"
                         value={formData.organizationName}
                         onChange={handleChange}
                         required
@@ -76,7 +76,7 @@ const CreateOrganizationModal = ({ isOpen, onClose, adminId, adminName, adminEma
                         type="text"
                         name="organizationDomain"
                         placeholder="Organization Domain"
-                        className="border px-4 py-2 rounded-md"
+                        className="border px-4 py-2 rounded-md focus:outline-none focus:ring-[0.1rem] focus:ring-[#5b2333]"
                         value={formData.organizationDomain}
                         onChange={handleChange}
                         required
@@ -84,7 +84,7 @@ const CreateOrganizationModal = ({ isOpen, onClose, adminId, adminName, adminEma
                     <textarea
                         name="organizationDescription"
                         placeholder="Description"
-                        className="border px-4 py-2 rounded-md resize-none"
+                        className="border px-4 py-2 rounded-md focus:outline-none focus:ring-[0.1rem] focus:ring-[#5b2333]"
                         value={formData.organizationDescription}
                         onChange={handleChange}
                         rows={3}
@@ -92,7 +92,7 @@ const CreateOrganizationModal = ({ isOpen, onClose, adminId, adminName, adminEma
                     />
                     <select
                         name="organizationIndustry"
-                        className="border px-4 py-2 rounded-md"
+                        className="border px-4 py-2 rounded-md focus:outline-none focus:ring-[0.1rem] focus:ring-[#5b2333]"
                         value={formData.organizationIndustry}
                         onChange={handleChange}
                         required
@@ -107,7 +107,7 @@ const CreateOrganizationModal = ({ isOpen, onClose, adminId, adminName, adminEma
                     </select>
                     <select
                         name="organizationSize"
-                        className="border px-4 py-2 rounded-md"
+                        className="border px-4 py-2 rounded-md focus:outline-none focus:ring-[0.1rem] focus:ring-[#5b2333]"
                         value={formData.organizationSize}
                         onChange={handleChange}
                         required
@@ -124,7 +124,7 @@ const CreateOrganizationModal = ({ isOpen, onClose, adminId, adminName, adminEma
                         value={adminName}
                         name="adminName"
                         disabled
-                        className="bg-gray-100 border px-4 py-2 rounded-md cursor-not-allowed"
+                        className="border text-gray-400 px-4 py-2 rounded-md cursor-not-allowed"
                         readOnly
                     />
                     <input
@@ -132,7 +132,7 @@ const CreateOrganizationModal = ({ isOpen, onClose, adminId, adminName, adminEma
                         value={adminEmail}
                         name="adminEmail"
                         disabled
-                        className="bg-gray-100 border px-4 py-2 rounded-md cursor-not-allowed"
+                        className="border text-gray-400 px-4 py-2 rounded-md cursor-not-allowed"
                         readOnly
                     />
                 </div>
