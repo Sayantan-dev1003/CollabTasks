@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { updateUser } from '../utils/indexedDB';
+import { saveUserToDB } from '../utils/indexedDB';
+import { useAuth } from '../Context/AuthContext';
 
 const CreateOrganizationModal = ({ isOpen, onClose, adminId, adminName, adminEmail }) => {
     const [formData, setFormData] = useState({
@@ -9,6 +10,7 @@ const CreateOrganizationModal = ({ isOpen, onClose, adminId, adminName, adminEma
         organizationIndustry: '',
         organizationSize: '',
     });
+    const { setUser } = useAuth();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -17,7 +19,6 @@ const CreateOrganizationModal = ({ isOpen, onClose, adminId, adminName, adminEma
 
     const handleSubmit = async () => {
         try {
-            console.log(adminId, adminName, adminEmail);
             const response = await fetch('http://localhost:5000/api/create-organization', {
                 method: 'POST',
                 headers: {
@@ -39,10 +40,14 @@ const CreateOrganizationModal = ({ isOpen, onClose, adminId, adminName, adminEma
                 throw new Error(`HTTP error! status: ${getUserResponse.status}`);
             }
             const adminData = await getUserResponse.json();
-            const adminOrganizationId = adminData.organization;
-            await updateUser({ adminOrganizationId });
+            console.log(adminData)
 
-            onClose();
+            if (adminData) {
+                setUser(adminData);
+                await saveUserToDB(adminData);
+                onClose();
+            }
+            
         } catch (error) {
             console.error('Error creating organization:', error);
         }

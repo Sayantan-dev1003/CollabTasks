@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../Context/AuthContext';
+import { getUserFromDB, saveUserIfNotExists } from '../utils/indexedDB';
 
 const Signin = () => {
     const [formData, setFormData] = useState({
@@ -21,7 +22,7 @@ const Signin = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         try {
             const response = await fetch("http://localhost:5000/login", {
                 method: "POST",
@@ -31,16 +32,25 @@ const Signin = () => {
                 },
                 body: JSON.stringify(formData),
             });
-
+    
             const data = await response.json();
+    
             if (response.ok) {
-                setUser({ ...data.user, email: formData.email });
+                const fullUser = { ...data.user, email: formData.email };
+    
+                const existingUser = await getUserFromDB();
+                
+                if (!existingUser || existingUser.id !== fullUser.id) {
+                    setUser(fullUser);
+                    await saveUserIfNotExists(fullUser);
+                }
+    
                 switch (formData.role) {
                     case "Admin":
-                        navigate("/admin-dashboard");
+                        navigate("/admin/dashboard");
                         break;
                     case "Manager":
-                        navigate("/manager-dashboard");
+                        navigate("/manager/dashboard");
                         break;
                     case "Member":
                         navigate("/dashboard");

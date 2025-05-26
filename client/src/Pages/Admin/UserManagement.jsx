@@ -12,7 +12,7 @@ const UserManagement = () => {
   useEffect(() => {
     const fetchAdminOrgIdAndUsers = async () => {
       const user = await getUserFromDB();
-      const orgId = user?.adminOrganizationId;
+      const orgId = user?.organization;
   
       if (!orgId) return;
   

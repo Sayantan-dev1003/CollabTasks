@@ -26,8 +26,8 @@ const AdminSidebar = ({ isOpen, onClose }) => {
                 <h1 className='montserrat text-2xl font-bold mb-4'>CollabTasks</h1>
                 <ul className="flex flex-col gap-4 mt-6">
                     <li
-                        className={linkClasses('/admin-dashboard')}
-                        onClick={() => { navigate('/admin-dashboard'); onClose(); }}
+                        className={linkClasses('/admin/dashboard')}
+                        onClick={() => { navigate('/admin/dashboard'); onClose(); }}
                     >
                         Dashboard
                     </li>

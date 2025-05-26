@@ -20,6 +20,14 @@ export const saveUserToDB = async (user) => {
   await db.put(STORE_NAME, user, USER_KEY);
 };
 
+export const saveUserIfNotExists = async (user) => {
+  const db = await initDB();
+  const existingUser = await db.get(STORE_NAME, USER_KEY);
+  if (!existingUser) {
+    await db.put(STORE_NAME, user, USER_KEY);
+  }
+};
+
 // ✅ Get user with fixed key
 export const getUserFromDB = async () => {
   const db = await initDB();
