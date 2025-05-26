@@ -28,3 +28,73 @@ export const getUsersByOrganizationId = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+export const demoteUserRole = async (req, res) => {
+    const { userId } = req.params;
+    const { role } = req.body;
+
+    try {
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { role },
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({
+            message: 'User role updated successfully',
+            role: updatedUser.role,
+        });
+    } catch (error) {
+        console.error('Error updating user role:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+export const promoteUserRole = async (req, res) => {
+    const { userId } = req.params;
+    const { role } = req.body;
+
+    try {
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { role },
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({
+            message: 'User role updated successfully',
+            role: updatedUser.role,
+        });
+    } catch (error) {
+        console.error('Error updating user role:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+export const deleteUser = async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+        const deletedUser = await User.findByIdAndDelete(userId);
+
+        if (!deletedUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({
+            message: 'User deleted successfully',
+            userId: deletedUser._id,
+        });
+    } catch (error) {
+        console.error('Error deleting user:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};

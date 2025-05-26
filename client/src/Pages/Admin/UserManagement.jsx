@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AdminLayout from '../../Layouts/AdminLayout';
-import { FaPlus, FaArrowUp, FaArrowDown } from 'react-icons/fa';
+import { FaPlus, FaArrowUp, FaArrowDown, FaTrashAlt } from 'react-icons/fa';
 import AddUserModal from '../../Components/AddUserModal';
 import { getUserFromDB } from '../../utils/indexedDB';
 
@@ -32,7 +32,66 @@ const UserManagement = () => {
   
     fetchAdminOrgIdAndUsers();
   }, []);  
+
+  const promoteUser = async (userId) => {
+    const response = await fetch(`http://localhost:5000/api/user/${userId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ role: 'Manager' }),
+    });
   
+    const data = await response.json();
+    if (response.ok) {
+      setUsers(prevUsers =>
+        prevUsers.map(user =>
+          user._id === userId ? { ...user, role: data.role } : user
+        )
+      );
+    }
+  };
+  
+  const demoteUser = async (userId) => {
+    const response = await fetch(`http://localhost:5000/api/user/${userId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ role: 'Member' }),
+    });
+  
+    const data = await response.json();
+    if (response.ok) {
+      setUsers(prevUsers =>
+        prevUsers.map(user =>
+          user._id === userId ? { ...user, role: data.role } : user
+        )
+      );
+    }
+  };  
+
+  const removeUser = async (userId) => {
+    const confirmed = window.confirm("Are you sure you want to remove this user?");
+    if (!confirmed) return;
+  
+    try {
+      const response = await fetch(`http://localhost:5000/api/user/${userId}`, {
+        method: 'DELETE',
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        setUsers(prevUsers => prevUsers.filter(user => user._id !== userId));
+        console.log(data.message);
+      } else {
+        console.error(data.message);
+      }
+    } catch (error) {
+      console.error("Error removing user:", error);
+    }
+  };  
 
   const sortedUsers = [...users].sort((a, b) => {
     const rolePriority = { admin: 0, manager: 1, member: 2 };
@@ -73,22 +132,31 @@ const UserManagement = () => {
                     <td className="px-6 py-4 text-center capitalize">{user.role}</td>
                     <td className="px-6 py-4 text-center">{user.organizationName}</td>
                     <td className="px-6 py-4 flex gap-2 justify-center items-baseline">
-                      {user.role === 'manager' && (
+                      {user.role === 'Manager' && (
                         <button
-                          onClick={() => demoteUser(user.email)}
-                          className="flex gap-2 justify-center items-baseline bg-red-500 text-white rounded-md px-4 py-2 text-sm font-medium hover:bg-red-600 transition"
+                          onClick={() => demoteUser(user._id)}
+                          className="flex text-xs gap-1 justify-center cursor-pointer items-center bg-orange-400 text-white rounded-md p-2 font-medium hover:bg-orange-500 transition"
                         >
-                          <FaArrowDown className="text-xs" />
+                          <FaArrowDown className="text-[0.65rem]" />
                           Demote
                         </button>
                       )}
-                      {user.role === 'member' && (
+                      {user.role === 'Member' && (
                         <button
-                          onClick={() => promoteUser(user.email)}
-                          className="flex justify-center items-baseline gap-2 bg-green-500 text-white rounded-md px-4 py-2 text-sm font-medium hover:bg-green-600 transition"
+                          onClick={() => promoteUser(user._id)}
+                          className="flex text-xs gap-1 justify-center cursor-pointer items-center bg-green-500 text-white rounded-md p-2 font-medium hover:bg-green-600 transition"
                         >
-                          <FaArrowUp className="text-xs" />
+                          <FaArrowUp className="text-[0.65rem]" />
                           Promote
+                        </button>
+                      )}
+                      {(user.role === 'Manager' || user.role === 'Member') && (
+                        <button
+                          onClick={() => removeUser(user._id)}
+                          className="flex text-xs gap-1 justify-center cursor-pointer items-center bg-red-500 text-white rounded-md p-2 font-medium hover:bg-red-600 transition"
+                        >
+                          <FaTrashAlt className="text-[0.65rem]" />
+                          Remove
                         </button>
                       )}
                     </td>
