@@ -47,7 +47,7 @@ const CreateOrganizationModal = ({ isOpen, onClose, adminId, adminName, adminEma
                 await saveUserToDB(adminData);
                 onClose();
             }
-            
+
         } catch (error) {
             console.error('Error creating organization:', error);
         }

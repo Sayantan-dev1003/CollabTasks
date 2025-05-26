@@ -1,18 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaPlus, FaBell, FaSignOutAlt, FaBars } from 'react-icons/fa';
 import CreateOrganizationModal from './CreateOrganizationModal';
-import { useAuth } from '../Context/AuthContext';
+import { getUserFromDB } from '../utils/indexedDB';
 
 const AdminHeader = ({ onBurgerClick }) => {
+    const [user, setUser] = useState(null);
+    const [isUserLoaded, setIsUserLoaded] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { user, isUserLoaded } = useAuth();
-    console.log(user)
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const storedUser = await getUserFromDB();
+            setUser(storedUser);
+            setIsUserLoaded(true);
+        };
+        fetchUser();
+    }, []);
 
     return (
         <header className="bg-[#f7f4f3] text-[#5b2333] flex justify-between items-baseline py-4 px-8 shadow-lg">
             <div className="flex items-center">
                 <h1 className='montserrat text-2xl font-bold'>CollabTasks</h1>
             </div>
+
             <div className="flex items-center gap-6">
                 {isUserLoaded && user && !user.organization && (
                     <button
@@ -26,8 +36,8 @@ const AdminHeader = ({ onBurgerClick }) => {
                 <div className='flex justify-center items-baseline gap-1'>
                     {isUserLoaded ? (
                         <>
-                            <p className="text-base font-bold">{user.name}</p>
-                            <p className="text-xs text-[#5b2333]">{user.role}</p>
+                            <p className="text-base font-bold">{user?.name}</p>
+                            <p className="text-xs text-[#5b2333]">{user?.role}</p>
                         </>
                     ) : (
                         <p className="text-sm italic text-[#5b2333]">Loading user...</p>
