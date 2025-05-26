@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { FaPlus, FaBell, FaSignOutAlt, FaBars } from 'react-icons/fa';
 import CreateOrganizationModal from './CreateOrganizationModal';
 import { getUserFromDB } from '../utils/indexedDB';
+import { useNavigate } from 'react-router-dom';
 
 const AdminHeader = ({ onBurgerClick }) => {
     const [user, setUser] = useState(null);
     const [isUserLoaded, setIsUserLoaded] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -16,6 +18,22 @@ const AdminHeader = ({ onBurgerClick }) => {
         };
         fetchUser();
     }, []);
+
+    const handleLogout = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/logout', {
+                method: 'POST',
+                credentials: 'include'
+            });
+            if (response.ok) {
+                navigate('/', { replace: true });
+            } else {
+                console.log('Error logging out: ', response.statusText);
+            }
+        } catch (error) {
+            console.log('Error logging out: ', error);
+        }
+    };
 
     return (
         <header className="bg-[#f7f4f3] text-[#5b2333] flex justify-between items-baseline py-4 px-8 shadow-lg">
@@ -45,7 +63,7 @@ const AdminHeader = ({ onBurgerClick }) => {
                 </div>
 
                 <FaBell className='cursor-pointer hover:text-[#894b5c]' />
-                <FaSignOutAlt className='cursor-pointer hover:text-[#894b5c]' />
+                <FaSignOutAlt onClick={handleLogout} className='cursor-pointer hover:text-[#894b5c]' />
                 <FaBars onClick={onBurgerClick} className='cursor-pointer hover:text-[#894b5c]' />
             </div>
 
