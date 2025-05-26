@@ -57,49 +57,6 @@ CollabTasks offers a comprehensive set of features to cater to organizational ta
 * **Deployment**: (To be specified, e.g., Nginx, PM2, Cloud Provider specific services)
 * **Testing**: (e.g., Jest, Supertest, React Testing Library)
 
-## Project Structure
-├── server/
-│   ├── src/
-│   │   ├── config/             # Database connection, environment variables
-│   │   ├── controllers/        # Business logic for API endpoints
-│   │   ├── middleware/         # Authentication (JWT), RBAC
-│   │   ├── models/             # Mongoose schemas for User, Organization, Task
-│   │   ├── routes/             # API routes (user, auth, organization, tasks)
-│   │   ├── services/           # Helper functions, email sending
-│   │   ├── utils/              # Utility functions (e.g., error handling)
-│   │   ├── jobs/               # Background jobs (e.g., task expiry cron)
-│   │   ├── app.js              # Express application setup
-│   │   └── server.js           # Server application setup
-│   ├── tests/                  # Backend unit and API tests
-│   ├── .env.example            # Environment variables example
-│   ├── package.json
-│   └── Dockerfile              # Dockerfile for Node.js backend
-├── client/
-│   ├── public/                 # Public assets
-│   ├── src/
-│   │   ├── assets/             # Images, icons
-│   │   ├── components/         # Reusable React components
-│   │   ├── contexts/           # React Context API for global state
-│   │   ├── hooks/              # Custom React hooks
-│   │   ├── pages/              # Top-level components for routes
-│   │   ├── services/           # API calls to backend
-│   │   ├── utils/              # Frontend utility functions
-│   │   ├── App.js              # Main React application component
-│   │   ├── index.js            # React entry point
-│   │   └── styles/             # Global styles, CSS modules
-│   ├── tests/                  # Frontend unit and integration tests
-│   ├── .env.example            # Environment variables example
-│   ├── package.json
-│   └── Dockerfile              # Dockerfile for React frontend
-├── docker-compose.yml          # Docker Compose configuration
-├── deployment/                 # Documentation for deployment, CI/CD, server setup
-│   ├── server-setup.md
-│   ├── ci-cd-pipeline.md
-│   ├── environment-variables.md
-│   └── database-migrations.md
-├── .gitignore
-├── README.md
-
 ## Getting Started
 
 Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
